@@ -1,0 +1,33 @@
+from twitter import Twitter, OAuth 
+import configparser,json
+config = configparser.RawConfigParser()
+config.read('twauth.properties')
+consumer_key = config.get('OAuth','key')
+consumer_secret = config.get('OAuth','key_secret')
+access_key = config.get('OAuth','token')
+access_secret = config.get('OAuth','token_secret')
+oauth = OAuth(access_key, access_secret,consumer_key,consumer_secret)
+t = Twitter(auth=oauth)
+
+
+print("Downloading Search Tweets")
+filename="search.json"
+all_tweets=[]
+query = t.search.tweets(q='%23yovotodelacalle OR %23yovotoCristo OR %23yovotedelacalle OR %23yovotecristo',count=1000)
+all_tweets.extend(query['statuses'])
+oldest=all_tweets[-1]['id']
+
+while (len(query['statuses'])>1):
+	query = t.search.tweets(q='%23yovotodelacalle OR %23yovotoCristo OR %23yovotedelacalle OR %23yovotecristo',count=1000,max_id=oldest-1)
+	all_tweets.extend(query['statuses'])
+	oldest=all_tweets[-1]['id']
+
+
+for tweet in all_tweets:
+	with open(filename, 'a+') as outfile:
+		json.dump(tweet, outfile)
+		#outfile.write(tweet)
+		outfile.write("\n")
+		outfile.close()
+
+
