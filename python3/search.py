@@ -10,9 +10,10 @@ oauth = OAuth(access_key, access_secret,consumer_key,consumer_secret)
 t = Twitter(auth=oauth)
 
 #searchit='%23yovoyconordonez'
-searchit='%23elfuturoconpetro'
+#searchit='%23elfuturoconpetro'
+searchit='%23martaluciaenvenezuela'
 print("Downloading Search Tweets")
-filename="search_petrov2.json"
+filename="martavenezuela.json"
 all_tweets=[]
 #query = t.search.tweets(q='%23yovotodelacalle OR %23yovotoCristo OR %23yovotedelacalle OR %23yovotecristo',count=1000)
 query = t.search.tweets(q=searchit,count=1000)
